@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heroku Guides - CK Web</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Web Dev Guide</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="guides.html">Guides</a>
+        </nav>
+    </header>
+
+    <section class="guide-detail">
+        <h2>Heroku Guides</h2>
+
+        <h3>Heroku Deployment</h3>
+        <p>Heroku is a cloud platform that lets you deploy, manage, and scale applications effortlessly. Here’s how to deploy your first application on Heroku:</p>
+
+        <ol>
+            <li><strong>Step 1: Create a Heroku Account</strong>
+                <p>
+                    The first step in deploying your app is to create a Heroku account:
+                </p>
+                <ul>
+                    <li>Go to the <a href="https://www.heroku.com/" target="_blank">Heroku website</a> and sign up for a free account.</li>
+                    <li>Once registered, you can access the Heroku dashboard, where you can manage your apps.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 2: Install the Heroku CLI</strong>
+                <p>
+                    The Heroku Command Line Interface (CLI) is a powerful tool that helps you manage your Heroku apps directly from your terminal:
+                </p>
+                <ul>
+                    <li>Download and install the Heroku CLI for your operating system from the <a href="https://devcenter.heroku.com/articles/heroku-cli" target="_blank">official Heroku documentation</a>.</li>
+                    <li>After installation, open your terminal and log in to your Heroku account:
+                    <pre><code>
+heroku login
+                    </code></pre>
+                    </li>
+                    <li>This command will prompt you to enter your Heroku credentials, connecting your terminal to your Heroku account.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 3: Create a New Heroku App</strong>
+                <p>
+                    With the CLI set up, you can now create a new Heroku app:
+                </p>
+                <ul>
+                    <li>Navigate to your project directory in the terminal.</li>
+                    <li>Create a new Heroku app with:
+                    <pre><code>
+heroku create [your-app-name]
+                    </code></pre>
+                    </li>
+                    <li>Heroku will generate a unique app name if you don't specify one. You’ll also get a URL where your app will be accessible.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 4: Deploy Your App</strong>
+                <p>
+                    Deploying your application to Heroku is as simple as pushing your code to a Git repository:
+                </p>
+                <ul>
+                    <li>Ensure your application is tracked by Git (if it’s not, initialize it with <code>git init</code>).</li>
+                    <li>Stage and commit your changes:
+                    <pre><code>
+git add .
+git commit -m "Initial commit"
+                    </code></pre>
+                    </li>
+                    <li>Deploy to Heroku using:
+                    <pre><code>
+git push heroku main
+                    </code></pre>
+                    </li>
+                    <li>Heroku will automatically build and deploy your app. You can then open it in your browser with:
+                    <pre><code>
+heroku open
+                    </code></pre>
+                    </li>
+                </ul>
+            </li>
+
+            <li><strong>Step 5: Understanding Heroku's Ephemeral Filesystem</strong>
+                <p>
+                    Heroku uses an ephemeral filesystem that doesn't persist data:
+                </p>
+                <ul>
+                    <li>Any changes to the filesystem during the dyno's lifetime are discarded when the dyno restarts.</li>
+                    <li>Use external services like Amazon S3 for persistent file storage.</li>
+                    <li>Store session data in a database or cache rather than on the filesystem.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 6: Exploring Heroku Add-ons</strong>
+                <p>
+                    Heroku's add-ons ecosystem provides additional functionality:
+                </p>
+                <ul>
+                    <li>Browse available add-ons in the Heroku Elements Marketplace.</li>
+                    <li>Popular add-ons include database services, monitoring tools, and caching solutions.</li>
+                    <li>To provision an add-on, use:
+                    <pre><code>
+heroku addons:create addon-name
+                    </code></pre>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>Managing Heroku Apps</h3>
+        <p>Heroku provides several tools to help you manage your applications effectively. Here are some key tasks:</p>
+
+        <ol>
+            <li><strong>Step 1: Scaling Dynos</strong>
+                <p>
+                    Dynos are the lightweight containers that run your app on Heroku. You can scale your app by adjusting the number of dynos:
+                </p>
+                <ul>
+                    <li>To scale your web app to one dyno (which is free), use:
+                    <pre><code>
+heroku ps:scale web=1
+                    </code></pre>
+                    </li>
+                    <li>To scale your app to more dynos (costs apply), adjust the number:
+                    <pre><code>
+heroku ps:scale web=3
+                    </code></pre>
+                    </li>
+                    <li>This command ensures your app can handle more traffic by running multiple instances.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 2: Monitoring Your App</strong>
+                <p>
+                    Heroku provides built-in monitoring tools to keep track of your app’s performance:
+                </p>
+                <ul>
+                    <li>Log in to the Heroku dashboard and navigate to your app.</li>
+                    <li>Click on the "Metrics" tab to view real-time performance data, including response times, memory usage, and throughput.</li>
+                    <li>Use this data to optimize your app’s performance and identify potential issues.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 3: Setting Config Vars</strong>
+                <p>
+                    Config vars allow you to manage environment-specific settings without hardcoding them in your app:
+                </p>
+                <ul>
+                    <li>Set a config var using the CLI:
+                    <pre><code>
+heroku config:set VAR_NAME=value
+                    </code></pre>
+                    </li>
+                    <li>Access these vars in your app’s code using <code>process.env.VAR_NAME</code>.</li>
+                    <li>This is useful for storing sensitive information like API keys or database URLs.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 4: Adding Add-ons</strong>
+                <p>
+                    Heroku Add-ons are third-party services that can extend your app’s functionality:
+                </p>
+                <ul>
+                    <li>Browse the Heroku Add-ons marketplace from your app’s dashboard.</li>
+                    <li>Select an Add-on, such as a database service or monitoring tool, and provision it with a few clicks.</li>
+                    <li>Once added, you can configure and manage the Add-on directly from the Heroku dashboard.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 5: Managing Logs</strong>
+                <p>
+                    Heroku logs provide valuable insights into your app’s activity, helping you debug issues and track performance:
+                </p>
+                <ul>
+                    <li>View real-time logs using:
+                    <pre><code>
+heroku logs --tail
+                    </code></pre>
+                    </li>
+                    <li>This command streams your app’s logs to the terminal, allowing you to monitor its behavior as users interact with it.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 6: Using Heroku Logs</strong>
+                <p>
+                    Heroku provides a robust logging system:
+                </p>
+                <ul>
+                    <li>View logs in real-time with:
+                    <pre><code>
+heroku logs --tail
+                    </code></pre>
+                    </li>
+                    <li>Filter logs by log type, such as app logs or system logs.</li>
+                    <li>Use log drains to forward logs to external logging services for long-term storage and analysis.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 7: Implementing Heroku Review Apps</strong>
+                <p>
+                    Review Apps allow you to create temporary test apps for each pull request:
+                </p>
+                <ul>
+                    <li>Enable Review Apps in your app's "Deploy" tab on the Heroku Dashboard.</li>
+                    <li>Heroku creates a new app for each pull request, making it easy to test changes before merging.</li>
+                    <li>Review Apps are automatically destroyed when the pull request is closed.</li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <footer>
+        <p>© 2024 CK Web Dev Guide. All rights reserved.</p>
+    </footer>
+</body>
+</html>

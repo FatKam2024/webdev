@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Guides - CK Web Dev Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Web Dev Guide</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="guides.html">Guides</a>
+        </nav>
+    </header>
+
+    <section class="guide-detail">
+        <h2>Firebase Guides</h2>
+
+        <h3>Firebase Security Rules</h3>
+        <p>Firebase Security Rules protect your data and define how it should be accessed:</p>
+
+        <ol>
+            <li><strong>Step 1: Understanding Security Rules</strong>
+                <p>
+                    Security Rules define who has read and write access to your data:
+                </p>
+                <ul>
+                    <li>Rules are written in a JavaScript-like language.</li>
+                    <li>They are defined for Firestore, Realtime Database, and Cloud Storage.</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 2: Writing Basic Security Rules</strong>
+                <p>
+                    Here's an example of basic security rules for Firestore:
+                </p>
+                <pre><code>
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+                </code></pre>
+                <p>These rules allow read and write access only to authenticated users.</p>
+            </li>
+        </ol>
+
+        <h3>Firebase Cloud Messaging</h3>
+        <p>Firebase Cloud Messaging (FCM) allows you to send push notifications to your users:</p>
+
+        <ol>
+            <li><strong>Step 1: Set Up FCM</strong>
+                <p>
+                    Enable FCM in your Firebase project:
+                </p>
+                <ul>
+                    <li>Go to the Firebase Console and navigate to your project.</li>
+                    <li>Click on "Cloud Messaging" in the left sidebar.</li>
+                    <li>Follow the setup instructions for your platform (Web, iOS, or Android).</li>
+                </ul>
+            </li>
+
+            <li><strong>Step 2: Implement Client-Side Code</strong>
+                <p>
+                    For web apps, request permission and get the FCM token:
+                </p>
+                <pre><code>
+messaging.requestPermission()
+  .then(() => {
+    console.log('Permission granted');
+    return messaging.getToken();
+  })
+  .then((token) => {
+    console.log('FCM token:', token);
+    // Send this token to your server
+  })
+  .catch((err) => {
+    console.log('Unable to get permission', err);
+  });
+                </code></pre>
+            </li>
+
+            <li><strong>Step 3: Send a Notification</strong>
+                <p>
+                    Use the Firebase Admin SDK on your server to send notifications:
+                </p>
+                <pre><code>
+const admin = require('firebase-admin');
+
+admin.messaging().send({
+  token: deviceToken,
+  notification: {
+    title: 'New message',
+    body: 'You have a new message!'
+  }
+})
+.then((response) => {
+  console.log('Successfully sent message:', response);
+})
+.catch((error) => {
+  console.log('Error sending message:', error);
+});
+                </code></pre>
+            </li>
+        </ol>
+    </section>
+
+    <footer>
+        <p>© 2024 CK Web Dev Guide. All rights reserved.</p>
+    </footer>
+</body>
+</html>
